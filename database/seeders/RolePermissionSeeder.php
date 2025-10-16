@@ -15,10 +15,14 @@ class RolePermissionSeeder extends Seeder
     public function run(): void
     {
         $permissions = [
-            'view products',
-            'create products',
-            'edit products',
-            'delete products',
+            'view services',
+            'create services',
+            'edit services',
+            'delete services',
+            'view customers',
+            'create customers',
+            'edit customers',
+            'delete customers',
             'view sales',
             'create sales',
             'view reports',
@@ -37,9 +41,12 @@ class RolePermissionSeeder extends Seeder
 
         $manager = Role::create(['name' => 'manager']);
         $manager->givePermissionTo([
-            'view products',
-            'create products',
-            'edit products',
+            'view services',
+            'create services',
+            'edit services',
+            'view customers',
+            'create customers',
+            'edit customers',
             'view sales',
             'create sales',
             'view reports',
@@ -49,7 +56,8 @@ class RolePermissionSeeder extends Seeder
 
         $cashier = Role::create(['name' => 'cashier']);
         $cashier->givePermissionTo([
-            'view products',
+            'view services',
+            'view customers',
             'view sales',
             'create sales',
             'view dashboard'
@@ -57,7 +65,8 @@ class RolePermissionSeeder extends Seeder
 
         $viewer = Role::create(['name' => 'viewer']);
         $viewer->givePermissionTo([
-            'view products',
+            'view services',
+            'view customers',
             'view sales',
             'view dashboard'
         ]);
