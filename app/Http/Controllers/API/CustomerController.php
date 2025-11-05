@@ -97,19 +97,29 @@ class CustomerController extends Controller
             'rfc'          => 'required|string|max:20'
         ]);
 
-        DB::beginTransaction();
-        try{
-            $customer->update($validated);
+        $customerData = collect($validated)->only([
+            'name', 'last_name', 'phone', 'email'
+        ])->toArray();
 
-            if($customer->address){
-                $customer->address->update($validated);
-            }else{
-                $customer->address->create($validated);
+        $addressData = collect($validated)->only([
+            'street', 'number', 'neighborhood', 'city', 'state', 'postal_code', 'rfc'
+        ])->toArray();
+
+        DB::beginTransaction();
+        try {
+            $customer->update($customerData);
+
+            if ($customer->address) {
+                $customer->address->update($addressData);
+            } else {
+                $customer->address()->create($addressData);
             }
 
             DB::commit();
-            return response()->json(['success' => true, 'data' => $customer->load('address')]);
-
+            return response()->json([
+                'success' => true,
+                'data' => $customer->load('address')
+            ]);
         }catch(\Exception $e){
             DB::rollBack();
             return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
