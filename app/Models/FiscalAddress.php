@@ -14,6 +14,7 @@ class FiscalAddress extends Model
         'customer_id',
         'street',
         'number',
+        'neighborhood',
         'city',
         'state',
         'postal_code',

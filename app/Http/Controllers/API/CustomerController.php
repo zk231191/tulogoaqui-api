@@ -12,13 +12,15 @@ class CustomerController extends Controller
 {
     public function registerNewClient(Request $request)
     {
+        //toma todos los datos del formulario
         $validated = $request->validate([
             'name'         => 'required|string|max:255',
             'last_name'    => 'required|string|max:255',
-            'phone'        => 'nullable|string|max:20',
+            'phone'        => 'required|string|max:20',
             'email'        => 'required|email|unique:customers',
             'street'       => 'required|string|max:255',
-            'number'       => 'nullable|string|max:50',
+            'number'       => 'required|string|max:50',
+            'neighborhood' => 'required|string|max:50',
             'city'         => 'nullable|string|max:255',
             'state'        => 'nullable|string|max:255',
             'postal_code'  => 'nullable|string|max:20',
@@ -31,11 +33,12 @@ class CustomerController extends Controller
 
             $customer->address()->create([
                 'street'       => $validated['street'],
-                'number'       => $validated['number'] ?? null,
-                'city'         => $validated['city'] ?? null,
-                'state'        => $validated['state'] ?? null,
-                'postal_code'  => $validated['postal_code'] ?? null,
-                'rfc'          => $validated['rfc'] ?? null,
+                'number'       => $validated['number'],
+                'neighborhood' => $validated['neighborhood'],
+                'city'         => $validated['city'],
+                'state'        => $validated['state'],
+                'postal_code'  => $validated['postal_code'],
+                'rfc'          => $validated['rfc'],
             ]);
 
             DB::commit();
@@ -81,16 +84,17 @@ class CustomerController extends Controller
         }
 
         $validated = $request->validate([
-            'name'         => 'sometimes|string|max:255',
-            'last_name'    => 'sometimes|string|max:255',
-            'phone'        => 'nullable|string|max:20',
-            'email'        => "sometimes|email|unique:customers,email,{$id}",
-            'street'       => 'sometimes|string|max:255',
-            'number'       => 'nullable|string|max:50',
-            'city'         => 'nullable|string|max:255',
-            'state'        => 'nullable|string|max:255',
-            'postal_code'  => 'nullable|string|max:20',
-            'rfc'          => 'nullable|string|max:20'
+            'name'         => 'required|string|max:255',
+            'last_name'    => 'required|string|max:255',
+            'phone'        => 'required|string|max:20',
+            'email'        => "required|email|unique:customers,email,{$id}",
+            'street'       => 'required|string|max:255',
+            'number'       => 'required|string|max:50',
+            'neighborhood' => 'required|string|max:50',
+            'city'         => 'required|string|max:255',
+            'state'        => 'required|string|max:255',
+            'postal_code'  => 'required|string|max:20',
+            'rfc'          => 'required|string|max:20'
         ]);
 
         DB::beginTransaction();
