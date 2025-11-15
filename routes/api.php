@@ -13,6 +13,11 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('/services')->group(function () {
+        Route::prefix('/modes')->group(function () {
+            Route::prefix('/types')->group(function () {
+                Route::get('/', [ServicesController::class, 'modeTypes']);
+            });
+        });
         Route::get('/', [ServicesController::class, 'index']);
         Route::post('/', [ServicesController::class, 'store']);
     });

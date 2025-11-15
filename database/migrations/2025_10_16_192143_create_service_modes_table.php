@@ -13,10 +13,16 @@ return new class extends Migration
     {
         Schema::create('service_modes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('service_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('service_id')
+                ->constrained('services')
+                ->cascadeOnDelete();
+
+            $table->foreignId('type_id')
+                ->constrained('service_mode_types')
+                ->cascadeOnDelete();
+
             $table->string('name');
-            $table->text('description')->nullable();
-            $table->boolean('includes_ironing')->nullable();
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

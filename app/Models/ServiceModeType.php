@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Service extends Model
+class ServiceModeType extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['name', 'description', 'active'];
+    protected $fillable = ['name'];
 
     public function modes()
     {

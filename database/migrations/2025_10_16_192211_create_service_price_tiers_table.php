@@ -13,12 +13,17 @@ return new class extends Migration
     {
         Schema::create('service_price_tiers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('service_size_id')->constrained()->cascadeOnDelete();
-            $table->unsignedInteger('min_qty')->default(1);
-            $table->unsignedInteger('max_qty')->nullable();
-            $table->enum('unit_type', ['piece', 'meter', 'm2'])->default('piece');
-            $table->decimal('price', 10, 2);
+            $table->foreignId('service_mode_id')
+                ->constrained('service_modes')
+                ->cascadeOnDelete();
+
+            $table->string('name');
+            $table->string('description')->nullable();
+            $table->integer('min_qty');
+            $table->integer('max_qty')->nullable();
+            $table->decimal('price', 8, 2)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class ServicePriceTier extends Model
 {
     protected $fillable = [
-        'service_size_id',
+        'service_mode_id',
+        'name',
+        'description',
         'min_qty',
         'max_qty',
-        'unit_type',
         'price',
     ];
-
-    public function size()
+    public function mode()
     {
-        return $this->belongsTo(ServiceSize::class);
+        return $this->belongsTo(ServiceMode::class);
     }
 }
