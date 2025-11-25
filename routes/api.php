@@ -23,6 +23,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [ServicesController::class, 'store']);
 
         Route::post('/{service}/modes', [ServicesController::class, 'storeModesAndPrices']);
+        Route::delete('/{service}/modes/{mode}', [ServicesController::class, 'destroyModesAndPrices']);
+
+        Route::put('/{service}', [ServicesController::class, 'update']);
+        Route::delete('/{service}', [ServicesController::class, 'destroy']);
     });
 });
 

@@ -60,4 +60,28 @@ class ServicesController extends Controller
 
         return response()->json($service);
     }
+
+    public function destroy(Service $service): \Illuminate\Http\JsonResponse
+    {
+        $service->delete();
+
+        return response()->json(null, 204);
+    }
+
+    public function update(Request $request, Service $service): \Illuminate\Http\JsonResponse
+    {
+        $service->name = $request->name;
+        $service->description = $request->description;
+
+        $service->save();
+
+        $service->load(['modes.type', 'modes.prices']);
+
+        return response()->json($service);
+    }
+
+    public function destroyModesAndPrices(Service $service, ServiceMode $mode): \Illuminate\Http\JsonResponse
+    {
+        return response()->json(null, 204);
+    }
 }
