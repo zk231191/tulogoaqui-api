@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\Api\ServiceModesController;
 use App\Http\Controllers\API\ServicesController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::put('/{service}', [ServicesController::class, 'update']);
         Route::delete('/{service}', [ServicesController::class, 'destroy']);
+    });
+
+    Route::prefix('/services-modes')->group(function () {
+        Route::delete('/{serviceMode}', [ServiceModesController::class, 'destroy']);
     });
 });
 
