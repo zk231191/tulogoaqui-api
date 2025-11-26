@@ -31,6 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('/services-modes')->group(function () {
+        Route::put('/{serviceMode}', [ServiceModesController::class, 'update']);
         Route::delete('/{serviceMode}', [ServiceModesController::class, 'destroy']);
     });
 });
