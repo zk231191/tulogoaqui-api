@@ -19,15 +19,21 @@ class RolePermissionSeeder extends Seeder
             'create services',
             'edit services',
             'delete services',
+
             'view customers',
             'create customers',
             'edit customers',
             'delete customers',
+
             'view sales',
             'create sales',
+
             'view reports',
+
             'manage users',
+
             'manage inventory',
+
             'view dashboard'
         ];
 

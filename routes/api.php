@@ -1,13 +1,17 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\ServiceModesController;
 use App\Http\Controllers\API\ServicesController;
+use App\Http\Controllers\Api\UsersController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/roles-with-permissions', [RoleController::class, 'index']);
+
     Route::prefix('/auth')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::get('/me', [AuthController::class, 'user']);
@@ -33,6 +37,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('/services-modes')->group(function () {
         Route::put('/{serviceMode}', [ServiceModesController::class, 'update']);
         Route::delete('/{serviceMode}', [ServiceModesController::class, 'destroy']);
+    });
+
+    Route::prefix('/users')->group(function () {
+        Route::get('/', [UsersController::class, 'index']);
+        Route::post('/', [UsersController::class, 'store']);
+        Route::get('/{user}', [UsersController::class, 'show']);
+        Route::put('/{user}', [UsersController::class, 'update']);
+        Route::delete('/{user}', [UsersController::class, 'destroy']);
     });
 });
 
