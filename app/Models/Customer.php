@@ -12,24 +12,33 @@ class Customer extends Model
 
     protected $fillable = [
         'name',
-        'last_name',
+        'paternal_last_name',
+        'maternal_last_name',
         'phone',
-        'email'
+        'email',
+        'facture_required',
+        'email_verified_at'
+    ];
+
+    protected $casts = [
+        'facture_required' => 'boolean',
+        'email_verified_at' => 'datetime',
     ];
 
     public function address()
     {
-        return $this->hasOne(FiscalAddress::class);
+        return $this->hasOne(FiscalAddress::class)->whereNull('deleted_at');
     }
-    
-    public static function boot()
+
+    protected static function boot()
     {
         parent::boot();
 
         static::restored(function ($customer) {
-            $customer->address()->withTrashed()->restore();
+            if (!$customer->address()->exists()) {
+                $old = $customer->hasMany(FiscalAddress::class)->withTrashed()->latest('id')->first();
+                $old?->restore();
+            }
         });
     }
 }
-
-?>

@@ -25,12 +25,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('/{service}/modes', [ServicesController::class, 'storeModesAndPrices']);
     });
-});
 
-Route::prefix('/customers')->group(function(){
-    Route::post('/', [CustomerController::class, 'registerNewClient']);
-    Route::get('/', [CustomerController::class, 'searchAllClients']);
-    Route::get('/{id}', [CustomerController::class, 'searchClient']);
-    Route::put('/{id}', [CustomerController::class, 'modifyAndUpdateClient']);
-    Route::delete('/{id}', [CustomerController::class, 'deleteClient']);
+    Route::prefix('/customers')->group(function(){
+        Route::get('/', [CustomerController::class, 'showAll']);
+        Route::post('/', [CustomerController::class, 'register']);
+        Route::get('/{customer}', [CustomerController::class, 'show']);
+        Route::put('/{customer}', [CustomerController::class, 'update']);
+        Route::delete('/{customer}', [CustomerController::class, 'delete']);
+    });
 });

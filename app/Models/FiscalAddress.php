@@ -18,7 +18,8 @@ class FiscalAddress extends Model
         'city',
         'state',
         'postal_code',
-        'rfc'
+        'rfc',
+        'business_name'
     ];
 
     public function customer()

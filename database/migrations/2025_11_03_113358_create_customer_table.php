@@ -6,36 +6,27 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration{
 
-    public function up(): void{
-        Schema::create('customers',function (blueprint $table){
+    public function up(): void
+    {
+        Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('last_name');
-            $table->string('phone');
-            $table->string('email')->unique();
+            $table->string('paternal_last_name')->nullable();
+            $table->string('maternal_last_name')->nullable();
+            $table->string('phone', 20);
+            $table->string('email');
+            $table->timestamp('email_verified_at')->nullable();
+            $table->boolean('facture_required')->default(false);
             $table->timestamps();
             $table->softDeletes();
-        });
 
-        Schema::create('fiscal_addresses', function (blueprint $table){
-            $table->id();
-            $table->foreignId('customer_id')->unique()->constrained('customers');
-            $table->string('street');
-            $table->string('number');
-            $table->string('neighborhood');
-            $table->string('city');
-            $table->string('state');
-            $table->string('postal_code');
-            $table->string('rfc')->unique();
-            $table->timestamps();
-            $table->softDeletes();
+            // Permite reutilizar email si el registro anterior está soft-deleted
+            $table->unique(['email', 'deleted_at']);
         });
     }
 
-    public function down(): void{
-        schema::dropIfExists('fiscal_addresses');
-        schema::dropIfExists('customers');
+    public function down(): void
+    {
+        Schema::dropIfExists('customers');
     }
-}
-
-?>
+};
