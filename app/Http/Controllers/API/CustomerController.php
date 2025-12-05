@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Customer\StoreRequest;
 use App\Http\Requests\Customer\UpdateRequest;
 use App\Models\Customer;
-use Exception;
+use Throwable;
 use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
@@ -16,34 +16,35 @@ class CustomerController extends Controller
         $validated = $request->validated();
         $factureRequired = (bool) ($validated['facture_required'] ?? false);
 
-        DB::beginTransaction();
         try {
-            $customer = Customer::create([
-                'name'               => $validated['name'],
-                'paternal_last_name' => $validated['paternal_last_name'] ?? null,
-                'maternal_last_name' => $validated['maternal_last_name'] ?? null,
-                'phone'              => $validated['phone'],
-                'email'              => $validated['email'],
-                'facture_required'   => $factureRequired,
-            ]);
-
-            if ($factureRequired) {
-                $customer->address()->create([
-                    'street'        => $validated['street'] ?? null,
-                    'number'        => $validated['number'] ?? null,
-                    'neighborhood'  => $validated['neighborhood'] ?? null,
-                    'city'          => $validated['city'] ?? null,
-                    'state'         => $validated['state'] ?? null,
-                    'postal_code'   => $validated['postal_code'] ?? null,
-                    'rfc'           => $validated['rfc'] ?? null,
-                    'business_name' => $validated['business_name'] ?? null,
+            DB::transaction(function () use ($validated, $factureRequired, &$customer) {
+                $customer = Customer::create([
+                    'name'               => $validated['name'],
+                    'paternal_last_name' => $validated['paternal_last_name'] ?? null,
+                    'maternal_last_name' => $validated['maternal_last_name'] ?? null,
+                    'phone'              => $validated['phone'],
+                    'email'              => $validated['email'],
+                    'facture_required'   => $factureRequired,
                 ]);
-            }
 
-            DB::commit();
+                if ($factureRequired) {
+                    $addressData = [
+                        'street'        => $validated['street'] ?? null,
+                        'number'        => $validated['number'] ?? null,
+                        'neighborhood'  => $validated['neighborhood'] ?? null,
+                        'city'          => $validated['city'] ?? null,
+                        'state'         => $validated['state'] ?? null,
+                        'postal_code'   => $validated['postal_code'] ?? null,
+                        'rfc'           => $validated['rfc'] ?? null,
+                        'business_name' => $validated['business_name'] ?? null,
+                    ];
+
+                    $customer->address()->updateOrCreate([], $addressData);
+                }
+            });
+
             return response()->json(['success' => true, 'data' => $customer->load('address')], 201);
-        } catch (Exception $e) {
-            DB::rollBack();
+        } catch (Throwable $e) {
             return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
         }
     }
@@ -87,43 +88,38 @@ class CustomerController extends Controller
             'business_name' => $validated['business_name'] ?? null,
         ];
 
-        DB::beginTransaction();
         try {
-            $customer->update($customerData);
+            DB::transaction(function () use ($customer, $customerData, $factureRequired, $addressData) {
+                $customer->update($customerData);
 
-            if ($factureRequired) {
-                if ($customer->address) {
-                    $customer->address->update($addressData);
+                if ($factureRequired) {
+                    $customer->address()->updateOrCreate([], $addressData);
                 } else {
-                    $customer->address()->create($addressData);
+                    // si hay una dirección y ahora no requiere factura, la eliminamos (soft delete si aplica)
+                    if ($customer->address) {
+                        $customer->address()->delete();
+                    }
                 }
-            } else {
-                if ($customer->address) {
-                    $customer->address->delete();
-                }
-            }
+            });
 
-            DB::commit();
             return response()->json(['success' => true, 'data' => $customer->load('address')]);
-        } catch (Exception $e) {
-            DB::rollBack();
+        } catch (Throwable $e) {
             return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
         }
     }
 
     public function delete(Customer $customer)
     {
-        DB::beginTransaction();
         try {
-            if ($customer->address) {
-                $customer->address->delete();
-            }
-            $customer->delete();
+            DB::transaction(function () use ($customer) {
+                if ($customer->address) {
+                    $customer->address()->delete();
+                }
+                $customer->delete();
+            });
 
-            DB::commit();
             return response()->json(['success' => true, 'message' => 'Customer deleted successfully']);
-        } catch (Exception $e) {
-            DB::rollBack();
+        } catch (Throwable $e) {
             return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
         }
     }
