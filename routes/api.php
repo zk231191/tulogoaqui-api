@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\Api\CustomersController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\ServiceModesController;
 use App\Http\Controllers\API\ServicesController;
@@ -45,6 +46,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{user}', [UsersController::class, 'show']);
         Route::put('/{user}', [UsersController::class, 'update']);
         Route::delete('/{user}', [UsersController::class, 'destroy']);
+    });
+
+    Route::prefix('/customers')->group(function () {
+        Route::get('/', [CustomersController::class, 'index']);
+        Route::get('/{customer}', [CustomersController::class, 'show']);
+        Route::post('/', [CustomersController::class, 'store']);
+        Route::put('/{customer}', [CustomersController::class, 'update']);
+        Route::delete('/{customer}', [CustomersController::class, 'destroy']);
     });
 });
 
