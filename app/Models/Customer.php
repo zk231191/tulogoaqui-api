@@ -12,4 +12,9 @@ class Customer extends Model
     protected $fillable = [
         'name', 'last_name', 'email', 'phone'
     ];
+
+    public function fiscalAddress(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(FiscalAddress::class);
+    }
 }

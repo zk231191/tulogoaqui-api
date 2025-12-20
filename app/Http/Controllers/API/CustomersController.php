@@ -12,7 +12,7 @@ class CustomersController extends Controller
 {
     public function index(): \Illuminate\Http\JsonResponse
     {
-        $customers = Customer::all();
+        $customers = Customer::with(['fiscalAddress'])->get();
         return response()->json($customers);
     }
 
@@ -20,11 +20,14 @@ class CustomersController extends Controller
     {
         $customer = Customer::create($request->validated());
 
+        $customer->load(['fiscalAddress']);
+
         return response()->json($customer);
     }
 
     public function show(Customer $customer): \Illuminate\Http\JsonResponse
     {
+        $customer->load(['fiscalAddress']);
         return response()->json($customer);
     }
 
@@ -32,6 +35,7 @@ class CustomersController extends Controller
     {
         $customer->update($request->validated());
 
+        $customer->load(['fiscalAddress']);
         return response()->json($customer);
     }
 

@@ -2,15 +2,20 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\Api\CustomersController;
+use App\Http\Controllers\Api\FiscalRegimeController;
+use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\ServiceModesController;
 use App\Http\Controllers\API\ServicesController;
 use App\Http\Controllers\Api\UsersController;
+use App\Http\Controllers\Api\ZipCodeController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/zip/{zip}', [ZipCodeController::class, 'show']);
+
     Route::get('/roles-with-permissions', [RoleController::class, 'index']);
 
     Route::prefix('/auth')->group(function () {
@@ -55,5 +60,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{customer}', [CustomersController::class, 'update']);
         Route::delete('/{customer}', [CustomersController::class, 'destroy']);
     });
-});
 
+    Route::prefix('/fiscal-regiments')->group(function () {
+        Route::get('/',[FiscalRegimeController::class, 'index']);
+    });
+
+    Route::prefix('/orders')->group(function () {
+        Route::get('/', [OrdersController::class, 'index']);
+        Route::post('/', [OrdersController::class, 'store']);
+    });
+});

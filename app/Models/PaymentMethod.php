@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class OrderSubStatus extends Model
+class PaymentMethod extends Model
 {
     //
 }

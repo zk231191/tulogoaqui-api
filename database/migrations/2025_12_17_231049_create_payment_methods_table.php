@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_sub_statuses', function (Blueprint $table) {
+        Schema::create('payment_methods', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('label');
-            $table->integer(''); // 8679.12 -> 169.24 + 1.70 => 170.94 => 198.29  8909.14
+            $table->string('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_sub_statuses');
+        Schema::dropIfExists('payment_methods');
     }
 };
