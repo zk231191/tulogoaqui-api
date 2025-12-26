@@ -7,13 +7,29 @@ use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\ServiceModesController;
 use App\Http\Controllers\API\ServicesController;
+use App\Http\Controllers\API\SseController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\ZipCodeController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/login', [AuthController::class, 'login']);
 
+Route::post('/test/ably', function(Request $request, \App\Services\AblyService $ably) {
+    $ably->publish(
+        'orders',
+        'order-created',
+        [
+            'hola' => 'ably',
+            'mundo' => 'order'
+        ]
+    );
+
+    return response()->json(['sent' => true]);
+});
+
 Route::middleware('auth:sanctum')->group(function () {
+
     Route::get('/zip/{zip}', [ZipCodeController::class, 'show']);
 
     Route::get('/roles-with-permissions', [RoleController::class, 'index']);

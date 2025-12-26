@@ -16,19 +16,24 @@ class StatusSeeder extends Seeder
         $status = [
             [
                 'name' => 'accepted',
-                'label' => 'Aceptado'
+                'label' => 'Aceptado',
+                'sequence' => 1,
             ],[
                 'name' => 'in_design',
-                'label' => 'En diseño'
+                'label' => 'En diseño',
+                'sequence' => 2,
             ],[
                 'name' => 'in_production',
-                'label' => 'En producción'
+                'label' => 'En producción',
+                'sequence' => 3,
             ],[
                 'name' => 'ready',
-                'label' => 'Listo para entregar'
+                'label' => 'Listo para entregar',
+                'sequence' => 4,
             ],[
                 'name' => 'finished',
-                'label' => 'Finalizado'
+                'label' => 'Finalizado',
+                'sequence' => 5,
             ],
         ];
 

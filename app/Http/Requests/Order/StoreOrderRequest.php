@@ -22,7 +22,7 @@ class StoreOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'customer_id' => ['required', 'exists:customers,id'],
+            'customer.id' => ['required', 'exists:customers,id'],
 
             'items' => ['required', 'array', 'min:1'],
             'items.*.service_id' => ['required', 'exists:services,id'],
@@ -39,15 +39,15 @@ class StoreOrderRequest extends FormRequest
             'fiscal_address_id' => ['nullable', 'exists:fiscal_addresses,id'],
 
             'billing_data' => ['nullable', 'array'],
-            'billing_data.rfc' => ['required_if:requires_invoice,true'],
+            'billing_data.tax_identification_number' => ['required_if:requires_invoice,true'],
             'billing_data.business_name' => ['required_if:requires_invoice,true'],
             'billing_data.zip_code' => ['required_if:requires_invoice,true'],
-            'billing_data.street_name' => ['required_if:requires_invoice,true'],
+            'billing_data.street' => ['required_if:requires_invoice,true'],
             'billing_data.external_number' => ['required_if:requires_invoice,true'],
             'billing_data.email' => ['required_if:requires_invoice,true', 'email'],
-            'billing_data.fiscal_regime' => ['required_if:requires_invoice,true', 'exists:sat_regimes,id'],
+            'billing_data.tax_regime' => ['required_if:requires_invoice,true', 'exists:sat_regimes,id'],
 
-            'cfdi_use' => ['required_if:requires_invoice,true', 'exists:sat_cfdi_uses,id'],
+            'cfdi_use' => ['nullable', 'required_if:requires_invoice,true', 'exists:sat_cfdi_uses,id'],
 
             'discount' => ['nullable', 'numeric', 'min:0'],
             'deposit' => ['nullable', 'numeric', 'min:0'],

@@ -17,13 +17,14 @@ return new class extends Migration
 
             $table->string('business_name');
             $table->string('tax_identification_number', 13);
-            $table->string('tax_regime');
-            $table->string('cfdi_use');
+            $table->integer('tax_regime_id');
+            $table->integer('cfdi_use_id');
 
             $table->string('street');
             $table->integer('external_number');
             $table->string('internal_number')->nullable();
             $table->string('zip_code');
+            $table->string('suburb');
             $table->string('city');
             $table->string('state');
             $table->timestamps();

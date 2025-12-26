@@ -37,6 +37,10 @@ return [
 
     'dipomex' => [
         'key' => env('DIPOMEX_API_KEY'),
+    ],
+
+    'ably' => [
+        'key' => env('ABLY_KEY'),
     ]
 
 ];

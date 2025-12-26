@@ -19,6 +19,9 @@ class DatabaseSeeder extends Seeder
             SatRegimeSeeder::class,
             SatCfdiUseSeeder::class,
             SatRegimeCfdiUseSeeder::class,
+            StatusSeeder::class,
+            SubstatusSeeder::class,
+            PaymentMethodSeeder::class,
         ]);
     }
 }

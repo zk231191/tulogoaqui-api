@@ -14,4 +14,24 @@ class Order extends Model
     {
         return $this->hasMany(OrderService::class);
     }
+
+    public function seller(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class, 'seller_id');
+    }
+
+    public function customer(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function fiscalAddress(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(FiscalAddress::class);
+    }
+
+    public function payments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(OrderPayment::class);
+    }
 }

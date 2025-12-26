@@ -2,61 +2,94 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\FiscalAddress\Create;
+use App\Events\Orders\OrderCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\StoreOrderRequest;
 use App\Models\Order;
 use App\Models\OrderPayment;
 use App\Models\OrderService;
 use App\Models\OrderServiceItem;
+use App\Models\ServicePriceTier;
 use Illuminate\Support\Facades\DB;
 
 class OrdersController extends Controller
 {
-    public function index()
+    public function index(): \Illuminate\Database\Eloquent\Collection
     {
-        return Order::all();
+        return Order::with([
+            'services.items',
+            'seller',
+            'customer',
+            'payments',
+            'fiscalAddress'
+        ])->get();
     }
 
     public function store(StoreOrderRequest $request)
     {
         return DB::transaction(function () use ($request) {
 
-            if ($request->requires_invoce) {
-                if (!$request->fiscal_address_id) {
-                    
-                }
+            /* =====================
+             * FISCAL ADDRESS
+             * ===================== */
+            $fiscalAddressId = null;
+
+            if ($request->requires_invoice && !$request->fiscal_address_id) {
+                $data = array_merge(
+                    $request->billing_data ?? [],
+                    [
+                        'customer_id' => $request->customer['id'],
+                        'cfdi_use_id' => $request->cfdi_use,
+                        'tax_regime_id' => $request->billing_data['tax_regime'],
+                    ]
+                );
+
+                $fiscalAddress = app(Create::class)->handle($data);
+                $fiscalAddressId = $fiscalAddress->id;
+            } else {
+                $fiscalAddressId = $request->fiscal_address_id;
             }
 
             /* =====================
-             * ORDER
+             * ORDER (BASE)
              * ===================== */
             $order = Order::create([
                 'seller_id' => auth()->id(),
-                'customer_id' => $request->customer_id,
-                'fiscal_address_id' => $request->fiscal_address_id,
+                'customer_id' => $request->customer['id'],
+                'fiscal_address_id' => $fiscalAddressId,
                 'require_invoice' => $request->requires_invoice,
-                'cfdi_use_id' => $request->cfdi_use,
+                'cfdi_use_code' => $request->cfdi_use,
                 'comments' => $request->notes,
                 'discount' => $request->discount ?? 0,
+
+                'subtotal' => 0,
+                'tax' => 0,
+                'total' => 0,
+                'paid_amount' => 0,
+                'pending_amount' => 0,
             ]);
 
             /* =====================
-             * SERVICES
+             * CALCULOS
              * ===================== */
+            $subtotal = 0;
 
             foreach ($request->items as $item) {
 
                 $orderService = OrderService::create([
                     'order_id' => $order->id,
                     'service_id' => $item['service_id'],
-                    'mode_id' => $item['mode_id'],
+                    'service_mode_id' => $item['mode_id'],
                     'order_status_id' => 1, // inicial
                     'quantity' => $item['quantity'],
                 ]);
 
                 foreach ($item['price_id'] as $priceId) {
+                    $price = ServicePriceTier::findOrFail($priceId);
 
-                    $price = \App\Models\ServicePriceTier::findOrFail($priceId);
+                    $lineSubtotal = $price->price * $item['quantity'];
+                    $subtotal += $lineSubtotal;
 
                     OrderServiceItem::create([
                         'order_service_id' => $orderService->id,
@@ -64,27 +97,60 @@ class OrdersController extends Controller
                         'order_substatus_id' => 1,
                         'quantity' => $item['quantity'],
                         'unit_price' => $price->price,
-                        'total' => $price->price * $item['quantity'],
+                        'subtotal' => $lineSubtotal,
+                        'total' => $lineSubtotal,
                     ]);
                 }
             }
 
             /* =====================
-             * ANTICIPO
+             * TOTALES
              * ===================== */
+            $discount = $request->discount ?? 0;
+            $tax = round($subtotal * 0.16, 2); // IVA 16%
+            $total = max(($subtotal - $discount) + $tax, 0);
+
+            /* =====================
+             * PAGOS
+             * ===================== */
+            $paidAmount = 0;
 
             if ($request->deposit > 0) {
                 OrderPayment::create([
                     'order_id' => $order->id,
-                    'payment_method_id' => 1, // efectivo por default
+                    'payment_method_id' => 1, // efectivo
                     'amount' => $request->deposit,
                 ]);
+
+                $paidAmount = $request->deposit;
             }
 
-            return response()->json(
-                $order->load('services.items'),
-                201
-            );
+            $pendingAmount = max($total - $paidAmount, 0);
+
+            /* =====================
+             * UPDATE FINAL
+             * ===================== */
+            $order->update([
+                'subtotal' => $subtotal,
+                'tax' => $tax,
+                'discount' => $discount,
+                'total' => $total,
+                'paid_amount' => $paidAmount,
+                'pending_amount' => $pendingAmount,
+            ]);
+
+            $order->load([
+                'services.items',
+                'seller',
+                'customer',
+                'payments',
+                'fiscalAddress'
+            ]);
+
+            event(new OrderCreated($order));
+
+            return response()->json($order, 201);
         });
     }
+
 }
