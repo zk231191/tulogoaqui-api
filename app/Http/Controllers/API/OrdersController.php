@@ -12,18 +12,13 @@ use App\Models\OrderService;
 use App\Models\OrderServiceItem;
 use App\Models\ServicePriceTier;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class OrdersController extends Controller
 {
     public function index(): \Illuminate\Database\Eloquent\Collection
     {
-        return Order::with([
-            'services.items',
-            'seller',
-            'customer',
-            'payments',
-            'fiscalAddress'
-        ])->get();
+        return Order::all();
     }
 
     public function store(StoreOrderRequest $request)
@@ -55,6 +50,7 @@ class OrdersController extends Controller
              * ORDER (BASE)
              * ===================== */
             $order = Order::create([
+                'public_token' => Str::uuid(),
                 'seller_id' => auth()->id(),
                 'customer_id' => $request->customer['id'],
                 'fiscal_address_id' => $fiscalAddressId,
@@ -139,18 +135,22 @@ class OrdersController extends Controller
                 'pending_amount' => $pendingAmount,
             ]);
 
-            $order->load([
-                'services.items',
-                'seller',
-                'customer',
-                'payments',
-                'fiscalAddress'
-            ]);
+            $order = Order::findOrFail($order->id);
 
             event(new OrderCreated($order));
 
             return response()->json($order, 201);
         });
+    }
+
+    public function showPublic($token)
+    {
+        return Order::where('public_token', $token)->first();
+    }
+
+    public function show(Order $order): Order
+    {
+        return $order;
     }
 
 }

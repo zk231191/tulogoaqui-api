@@ -29,4 +29,9 @@ class OrderService extends Model
     {
         return $this->belongsTo(ServiceMode::class);
     }
+
+    public function status(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(OrderStatus::class, 'order_status_id');
+    }
 }

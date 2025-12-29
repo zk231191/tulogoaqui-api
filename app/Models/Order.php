@@ -7,7 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $fillable = [
-        'seller_id', 'customer_id', 'fiscal_address_id', 'require_invoice', 'cfdi_use_code', 'subtotal', 'discount', 'tax', 'total', 'paid_amount', 'pending_amount', 'comments'
+        'public_token', 'seller_id', 'customer_id', 'fiscal_address_id', 'require_invoice', 'cfdi_use_code', 'subtotal', 'discount', 'tax', 'total', 'paid_amount', 'pending_amount', 'comments'
+    ];
+
+    protected $with = [
+        'services.items.substatus',
+        'services.service',
+        'services.status',
+        'seller',
+        'customer',
+        'payments.paymentMethod',
+        'fiscalAddress'
     ];
 
     public function services(): \Illuminate\Database\Eloquent\Relations\HasMany

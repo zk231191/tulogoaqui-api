@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
+
+            $table->uuid('public_token')->unique();
+
             $table->foreignId('seller_id')
                 ->constrained('users')
                 ->cascadeOnDelete();

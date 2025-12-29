@@ -19,4 +19,9 @@ class OrderServiceItem extends Model
     {
         return $this->belongsTo(ServicePriceTier::class, 'service_mode_price_id');
     }
+
+    public function substatus(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(OrderSubstatus::class, 'order_substatus_id');
+    }
 }

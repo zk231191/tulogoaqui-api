@@ -83,6 +83,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('/orders')->group(function () {
         Route::get('/', [OrdersController::class, 'index']);
+        Route::get('/{token}/public', [OrdersController::class, 'showPublic']);
+        Route::get('/{order}', [OrdersController::class, 'show']);
         Route::post('/', [OrdersController::class, 'store']);
     });
 });
