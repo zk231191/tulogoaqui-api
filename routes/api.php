@@ -4,10 +4,11 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\Api\CustomersController;
 use App\Http\Controllers\Api\FiscalRegimeController;
 use App\Http\Controllers\Api\OrdersController;
+use \App\Http\Controllers\Api\OrderPaymentsController;
+use App\Http\Controllers\Api\PaymentsController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\ServiceModesController;
 use App\Http\Controllers\API\ServicesController;
-use App\Http\Controllers\API\SseController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\ZipCodeController;
 use Illuminate\Http\Request;
@@ -27,6 +28,8 @@ Route::post('/test/ably', function(Request $request, \App\Services\AblyService $
 
     return response()->json(['sent' => true]);
 });
+
+Route::get('/orders/{token}/public', [OrdersController::class, 'showPublic']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -83,8 +86,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('/orders')->group(function () {
         Route::get('/', [OrdersController::class, 'index']);
-        Route::get('/{token}/public', [OrdersController::class, 'showPublic']);
         Route::get('/{order}', [OrdersController::class, 'show']);
         Route::post('/', [OrdersController::class, 'store']);
+        Route::post('/{order}/payments', [OrderPaymentsController::class, 'store']);
+    });
+
+    Route::prefix('/payments')->group(function () {
+        Route::get('/methods', [PaymentsController::class, 'methods']);
     });
 });
