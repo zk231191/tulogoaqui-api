@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\OrdersController;
 use \App\Http\Controllers\Api\OrderPaymentsController;
 use App\Http\Controllers\Api\PaymentsController;
 use App\Http\Controllers\Api\RoleController;
+use App\Http\Controllers\Api\RolePermissionController;
 use App\Http\Controllers\Api\ServiceModesController;
 use App\Http\Controllers\API\ServicesController;
 use App\Http\Controllers\Api\UsersController;
@@ -93,5 +94,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('/payments')->group(function () {
         Route::get('/methods', [PaymentsController::class, 'methods']);
+    });
+
+    Route::prefix('/roles-permissions')->group(function () {
+        Route::get('/', [RolePermissionController::class, 'index']);
+        Route::post('/', [RolePermissionController::class, 'store']);
+        Route::put('/{role}', [RolePermissionController::class, 'update']);
+        Route::put('/{role}/permissions', [RolePermissionController::class, 'updatePermissions']);
+        Route::delete('/{role}', [RolePermissionController::class, 'destroy']);
     });
 });
