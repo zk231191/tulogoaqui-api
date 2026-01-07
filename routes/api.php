@@ -4,8 +4,9 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\Api\CustomersController;
 use App\Http\Controllers\Api\FiscalRegimeController;
 use App\Http\Controllers\Api\OrdersController;
-use \App\Http\Controllers\Api\OrderPaymentsController;
+use App\Http\Controllers\Api\OrderPaymentsController;
 use App\Http\Controllers\Api\PaymentsController;
+use App\Http\Controllers\Api\ReportsController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\RolePermissionController;
 use App\Http\Controllers\Api\ServiceModesController;
@@ -102,5 +103,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{role}', [RolePermissionController::class, 'update']);
         Route::put('/{role}/permissions', [RolePermissionController::class, 'updatePermissions']);
         Route::delete('/{role}', [RolePermissionController::class, 'destroy']);
+    });
+
+    Route::prefix('/reports')->group(function () {
+        Route::get('/sellers', [ReportsController::class, 'sellers']);
     });
 });
