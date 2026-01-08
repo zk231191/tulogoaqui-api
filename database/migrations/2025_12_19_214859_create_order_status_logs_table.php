@@ -15,10 +15,10 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('order_service_id')->nullable();
-            $table->unsignedBigInteger('from_status_id');
-            $table->unsignedBigInteger('to_status_id');
-            $table->unsignedBigInteger('from_substatus_id');
-            $table->unsignedBigInteger('to_substatus_id');
+            $table->unsignedBigInteger('from_order_service_status_id');
+            $table->unsignedBigInteger('to_order_service_status_id');
+            $table->unsignedBigInteger('from_order_service_substatus_id');
+            $table->unsignedBigInteger('to_order_service_substatus_id');
             $table->unsignedBigInteger('user_id');
             $table->text('comment')->nullable();
             $table->timestamps();

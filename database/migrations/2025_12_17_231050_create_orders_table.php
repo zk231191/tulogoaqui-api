@@ -19,9 +19,14 @@ return new class extends Migration
             $table->foreignId('seller_id')
                 ->constrained('users')
                 ->cascadeOnDelete();
+
             $table->foreignId('customer_id')
                 ->constrained('customers')
                 ->cascadeOnDelete();
+
+            $table->foreignId('order_status_id')
+                ->constrained('order_statuses');
+
             $table->foreignId('fiscal_address_id')
                 ->nullable()
                 ->constrained('fiscal_addresses')

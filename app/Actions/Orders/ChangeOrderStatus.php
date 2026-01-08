@@ -22,21 +22,21 @@ class ChangeOrderStatus
             $orderService,
             $comment
         ) {
-            $fromStatusId = $order->order_status_id;
-            $fromSubstatusId = $order->order_substatus_id;
+            $fromStatusId = $order->order_service_status_id;
+            $fromSubstatusId = $order->order_service_substatus_id;
 
             $order->update([
-                'order_status_id' => $toStatusId,
-                'order_substatus_id' => $toSubstatusId,
+                'order_service_status_id' => $toStatusId,
+                'order_service_substatus_id' => $toSubstatusId,
             ]);
 
             OrderStatusLog::create([
                 'order_id' => $order->id,
                 'order_service_id' => $orderService?->id,
-                'from_status_id' => $fromStatusId,
-                'to_status_id' => $toStatusId,
-                'from_substatus_id' => $fromSubstatusId,
-                'to_substatus_id' => $toSubstatusId,
+                'from_order_service_status_id' => $fromStatusId,
+                'to_order_service_status_id' => $toStatusId,
+                'from_order_service_substatus_id' => $fromSubstatusId,
+                'to_order_service_substatus_id' => $toSubstatusId,
                 'user_id' => auth()->id(),
                 'comment' => $comment,
             ]);

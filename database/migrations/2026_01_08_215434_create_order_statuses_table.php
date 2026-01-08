@@ -11,23 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_substatuses', function (Blueprint $table) {
+        Schema::create('order_statuses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('label');
-
-            $table->foreignId('status_id')
-                ->constrained('order_statuses');
-
-            $table->unsignedSmallInteger('sequence');
-
-            $table->boolean('is_final')->default(false);
-
             $table->timestamps();
             $table->softDeletes();
-
-            $table->unique(['status_id', 'sequence']);
-            $table->unique(['status_id', 'name']);
         });
     }
 
@@ -36,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_substatuses');
+        Schema::dropIfExists('order_statuses');
     }
 };

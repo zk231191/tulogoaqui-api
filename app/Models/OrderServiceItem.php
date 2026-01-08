@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class OrderServiceItem extends Model
 {
     protected $fillable = [
-        'order_service_id', 'service_mode_price_id', 'order_substatus_id', 'quantity', 'unit_price', 'subtotal',
+        'order_service_id', 'service_mode_price_id', 'order_service_substatus_id', 'quantity', 'unit_price', 'subtotal',
     ];
 
     public function orderService(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -22,6 +22,6 @@ class OrderServiceItem extends Model
 
     public function substatus(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(OrderSubstatus::class, 'order_substatus_id');
+        return $this->belongsTo(OrderServiceSubstatus::class, 'order_service_substatus_id');
     }
 }

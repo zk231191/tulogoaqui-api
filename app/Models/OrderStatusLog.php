@@ -9,45 +9,45 @@ class OrderStatusLog extends Model
     protected $fillable = [
         'order_id',
         'order_service_id',
-        'from_status_id',
-        'to_status_id',
-        'from_substatus_id',
-        'to_substatus_id',
+        'from_order_service_status_id',
+        'to_order_service_status_id',
+        'from_order_service_substatus_id',
+        'to_order_service_substatus_id',
         'user_id',
         'comment',
     ];
 
-    public function order()
+    public function order(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Order::class);
     }
 
-    public function orderService()
+    public function orderService(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(OrderService::class);
     }
 
-    public function fromStatus()
+    public function fromStatus(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(OrderStatus::class, 'from_status_id');
+        return $this->belongsTo(OrderServiceStatus::class, 'from_order_service_status_id');
     }
 
-    public function toStatus()
+    public function toStatus(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(OrderStatus::class, 'to_status_id');
+        return $this->belongsTo(OrderServiceStatus::class, 'to_order_service_status_id');
     }
 
-    public function fromSubstatus()
+    public function fromSubstatus(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(OrderSubstatus::class, 'from_substatus_id');
+        return $this->belongsTo(OrderServiceSubstatus::class, 'from_order_service_substatus_id');
     }
 
-    public function toSubstatus()
+    public function toSubstatus(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(OrderSubstatus::class, 'to_substatus_id');
+        return $this->belongsTo(OrderServiceSubstatus::class, 'to_order_service_substatus_id');
     }
 
-    public function user()
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
     }

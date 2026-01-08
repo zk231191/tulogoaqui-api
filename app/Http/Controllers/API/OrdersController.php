@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\FiscalAddress\Create;
 use App\Events\Orders\OrderCreated;
+use App\Events\Orders\OrderUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\StoreOrderRequest;
+use App\Http\Requests\Order\UpdateStatusRequest;
 use App\Models\Order;
 use App\Models\OrderPayment;
 use App\Models\OrderService;
@@ -53,6 +55,7 @@ class OrdersController extends Controller
                 'public_token' => Str::uuid(),
                 'seller_id' => auth()->id(),
                 'customer_id' => $request->customer['id'],
+                'order_status_id' => 1,
                 'fiscal_address_id' => $fiscalAddressId,
                 'require_invoice' => $request->requires_invoice,
                 'cfdi_use_code' => $request->cfdi_use,
@@ -77,7 +80,7 @@ class OrdersController extends Controller
                     'order_id' => $order->id,
                     'service_id' => $item['service_id'],
                     'service_mode_id' => $item['mode_id'],
-                    'order_status_id' => 1, // inicial
+                    'order_service_status_id' => 1, // inicial
                     'quantity' => $item['quantity'],
                 ]);
 
@@ -90,7 +93,7 @@ class OrdersController extends Controller
                     OrderServiceItem::create([
                         'order_service_id' => $orderService->id,
                         'service_mode_price_id' => $price->id,
-                        'order_substatus_id' => 1,
+                        'order_service_substatus_id' => 1,
                         'quantity' => $item['quantity'],
                         'unit_price' => $price->price,
                         'subtotal' => $lineSubtotal,
@@ -153,4 +156,15 @@ class OrdersController extends Controller
         return $order;
     }
 
+    public function updateStatus(Order $order, UpdateStatusRequest $request): \Illuminate\Http\JsonResponse
+    {
+        $data = $request->validated();
+        $order->update([
+            'order_service_status_id' => $data['status_id'],
+        ]);
+
+        event(new OrderUpdated($order));
+
+        return response()->json($order);
+    }
 }

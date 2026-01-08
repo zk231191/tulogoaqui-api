@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\OrderStatus;
+use App\Models\OrderServiceStatus;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class StatusSeeder extends Seeder
+class OrderServiceStatusSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -37,6 +37,6 @@ class StatusSeeder extends Seeder
             ],
         ];
 
-        OrderStatus::insert($status);
+        OrderServiceStatus::insert($status);
     }
 }

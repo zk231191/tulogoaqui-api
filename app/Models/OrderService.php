@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class OrderService extends Model
 {
     protected $fillable = [
-        'order_id', 'service_id', 'service_mode_id', 'order_status_id', 'quantity', 'subtotal', 'tax', 'total', 'comment',
+        'order_id', 'service_id', 'service_mode_id', 'order_service_status_id', 'quantity', 'subtotal', 'tax', 'total', 'comment',
     ];
 
     public function items(): \Illuminate\Database\Eloquent\Relations\HasMany
@@ -32,6 +32,6 @@ class OrderService extends Model
 
     public function status(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(OrderStatus::class, 'order_status_id');
+        return $this->belongsTo(OrderServiceStatus::class);
     }
 }
