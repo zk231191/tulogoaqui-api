@@ -27,7 +27,7 @@ class OrderPaymentsController extends Controller
             $order->save();
         });
 
-        $order->load(['payments']);
+        $order->refresh()->load((new Order)->withRelations());
 
         event(new OrderUpdated($order));
 

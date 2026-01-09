@@ -163,6 +163,8 @@ class OrdersController extends Controller
             'order_status_id' => $data['status_id'],
         ]);
 
+        $order->refresh()->load((new Order)->withRelations());    // puto el que lo lea
+
         event(new OrderUpdated($order));
 
         return response()->json($order);
