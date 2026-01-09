@@ -160,7 +160,7 @@ class OrdersController extends Controller
     {
         $data = $request->validated();
         $order->update([
-            'order_service_status_id' => $data['status_id'],
+            'order_status_id' => $data['status_id'],
         ]);
 
         event(new OrderUpdated($order));

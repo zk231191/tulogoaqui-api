@@ -276,9 +276,9 @@ class ServiceSeeder extends Seeder
             ['name' => 'Lona Blackout', 'description' => '', 'prices' => [110, 100, 90, 80, 70, 65], 'ranges' => $ranges],
             ['name' => 'Lona Translucida 13oz', 'description' => '', 'prices' => [250, 250, 200, 200, 200, 200], 'ranges' => $ranges],
             ['name' => 'Lona Mesh', 'description' => '', 'prices' => [200, 180, 160, 100, 85, 65], 'ranges' => $ranges],
-            ['name' => 'Vinil Adhesivo', 'description' => 'Brillante, mate, transparente y microperforado', 'prices' => [160, 150, 140, 100, 80, 70], 'ranges' => $ranges],
-            ['name' => 'Vinil Adhesivo', 'description' => 'Reflejante (ML o 1.22)', 'prices' => [800, 750, 700, 650, 600, 550], 'ranges' => $ranges],
-            ['name' => 'Vinil Adhesivo', 'description' => 'Reflejante (ML o 0.61)', 'prices' => [400, 375, 350, 325, 300, 275], 'ranges' => $ranges],
+            ['name' => 'Vinil Adhesivo A', 'description' => 'Brillante, mate, transparente y microperforado', 'prices' => [160, 150, 140, 100, 80, 70], 'ranges' => $ranges],
+            ['name' => 'Vinil Adhesivo B', 'description' => 'Reflejante (ML o 1.22)', 'prices' => [800, 750, 700, 650, 600, 550], 'ranges' => $ranges],
+            ['name' => 'Vinil Adhesivo C', 'description' => 'Reflejante (ML o 0.61)', 'prices' => [400, 375, 350, 325, 300, 275], 'ranges' => $ranges],
             ['name' => 'Polibanner Blackout', 'description' => '', 'prices' => [250, 250, 200, 200, 200, 200], 'ranges' => $ranges],
             ['name' => 'Película Backlight', 'description' => '', 'prices' => [250, 250, 200, 200, 200, 200], 'ranges' => $ranges],
             ['name' => 'Tela Canvas Algodón', 'description' => '', 'prices' => [550, 500, 450, 400, 350, 300], 'ranges' => $ranges],
@@ -295,14 +295,14 @@ class ServiceSeeder extends Seeder
         $prices = [
             ['name' => 'Coroplast 4mm', 'description' => '1.22x2.44 m', 'prices' => [700, 600, 500, 400, 300, 250], 'ranges' => $ranges],
             ['name' => 'Trovicel 3mm', 'description' => '1.22x2.44 m', 'prices' => [900, 800, 700, 600, 500, 400], 'ranges' => $ranges],
-            ['name' => 'Lado Extra', 'description' => 'Coroplast, Trovicel', 'prices' => [200, 200, 200, 200, 150, 100], 'ranges' => $ranges],
+            ['name' => 'Lado Extra A', 'description' => 'Coroplast, Trovicel', 'prices' => [200, 200, 200, 200, 150, 100], 'ranges' => $ranges],
 
             ['name' => 'Estireno Cal 15', 'description' => '1.52x1.20 m', 'prices' => [300, 280, 260, 240, 220, 200], 'ranges' => $ranges],
             ['name' => 'Estireno Cal 20', 'description' => '1.52x1.20 m', 'prices' => [330, 310, 290, 270, 250, 230], 'ranges' => $ranges],
             ['name' => 'Estireno Cal 30', 'description' => '1.52x1.20 m', 'prices' => [380, 360, 340, 320, 300, 280], 'ranges' => $ranges],
             ['name' => 'Estireno Cal 40', 'description' => '1.52x1.20 m', 'prices' => [510, 490, 470, 450, 430, 410], 'ranges' => $ranges],
             ['name' => 'Estireno Cal 60', 'description' => '1.52x1.20 m', 'prices' => [580, 560, 540, 520, 500, 480], 'ranges' => $ranges],
-            ['name' => 'Lado Extra', 'description' => 'Estireno', 'prices' => [100, 80, 80, 80, 70, 60], 'ranges' => $ranges],
+            ['name' => 'Lado Extra B', 'description' => 'Estireno', 'prices' => [100, 80, 80, 80, 70, 60], 'ranges' => $ranges],
         ];
 
         $this->savePrices($prices, $mode);

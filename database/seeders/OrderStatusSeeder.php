@@ -18,9 +18,6 @@ class OrderStatusSeeder extends Seeder
                 'name' => 'pending',
                 'label' => 'Pendiente'
             ], [
-                'name' => 'pending',
-                'label' => 'Pendiente'
-            ], [
                 'name' => 'finished',
                 'label' => 'Finalizado'
             ], [

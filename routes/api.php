@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\CustomersController;
 use App\Http\Controllers\Api\FiscalRegimeController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\OrderPaymentsController;
+use App\Http\Controllers\Api\OrderStatusesController;
 use App\Http\Controllers\Api\PaymentsController;
 use App\Http\Controllers\Api\ReportsController;
 use App\Http\Controllers\Api\RoleController;
@@ -108,5 +109,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('/reports')->group(function () {
         Route::get('/sellers', [ReportsController::class, 'sellers']);
+    });
+
+    Route::prefix('/order-statuses')->group(function () {
+        Route::get('/', [OrderStatusesController::class, 'index']);
     });
 });
