@@ -10,6 +10,8 @@ class OrderService extends Model
         'order_id', 'service_id', 'service_mode_id', 'order_service_status_id', 'quantity', 'subtotal', 'tax', 'total', 'comment',
     ];
 
+    protected $with = ['items', 'service', 'status'];
+
     public function items(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(OrderServiceItem::class);
@@ -32,6 +34,11 @@ class OrderService extends Model
 
     public function status(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(OrderServiceStatus::class);
+        return $this->belongsTo(OrderServiceStatus::class, 'order_service_status_id');
+    }
+
+    public function withRelations(): array
+    {
+        return $this->with;
     }
 }

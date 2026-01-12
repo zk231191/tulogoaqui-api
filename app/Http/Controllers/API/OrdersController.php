@@ -18,9 +18,11 @@ use Illuminate\Support\Str;
 
 class OrdersController extends Controller
 {
-    public function index(): \Illuminate\Database\Eloquent\Collection
+    public function index(): \Illuminate\Http\JsonResponse
     {
-        return Order::all();
+        $orders = Order::all();
+
+        return response()->json($orders);
     }
 
     public function store(StoreOrderRequest $request)

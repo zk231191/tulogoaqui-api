@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\FiscalRegimeController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\OrderPaymentsController;
 use App\Http\Controllers\Api\OrderStatusesController;
+use App\Http\Controllers\Api\OrderServicesController;
 use App\Http\Controllers\Api\PaymentsController;
 use App\Http\Controllers\Api\ReportsController;
 use App\Http\Controllers\Api\RoleController;
@@ -113,5 +114,18 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('/order-statuses')->group(function () {
         Route::get('/', [OrderStatusesController::class, 'index']);
+    });
+
+    Route::prefix('/order-services')->group(function () {
+
+        Route::prefix('/statuses')->group(function () {
+            Route::get('/', [OrderServicesController::class, 'statuses']);
+            Route::put('/{orderService}/status', [OrderServicesController::class, 'updateStatus']);
+        });
+
+        Route::prefix('/substatuses')->group(function () {
+            Route::get('/', [OrderServicesController::class, 'substatuses']);
+            Route::put('/{orderServiceItem}/substatus', [OrderServicesController::class, 'updateSubstatus']);
+        });
     });
 });
