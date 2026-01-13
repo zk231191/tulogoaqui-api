@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\ChangePasswordRequest;
 use App\Http\Requests\User\CreateRequest;
 use App\Http\Requests\User\UpdateRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
@@ -62,6 +62,17 @@ class UsersController extends Controller
     public function destroy(User $user): \Illuminate\Http\JsonResponse
     {
         $user->delete();
+
+        return response()->json([], 204);
+    }
+
+    public function changePassword(ChangePasswordRequest $request): \Illuminate\Http\JsonResponse
+    {
+        $data = $request->only(['password']);
+
+        $user = auth()->user();
+        $user->password = Hash::make($data['password']);
+        $user->save();
 
         return response()->json([], 204);
     }

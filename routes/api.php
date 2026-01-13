@@ -69,11 +69,14 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('/users')->group(function () {
+        Route::put('/password', [UsersController::class, 'changePassword']);
+        
         Route::get('/', [UsersController::class, 'index']);
         Route::post('/', [UsersController::class, 'store']);
         Route::get('/{user}', [UsersController::class, 'show']);
         Route::put('/{user}', [UsersController::class, 'update']);
         Route::delete('/{user}', [UsersController::class, 'destroy']);
+
     });
 
     Route::prefix('/customers')->group(function () {
