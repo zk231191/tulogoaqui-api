@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\Api\BranchesController;
 use App\Http\Controllers\Api\CustomersController;
 use App\Http\Controllers\Api\FiscalRegimeController;
 use App\Http\Controllers\Api\OrdersController;
@@ -70,7 +71,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('/users')->group(function () {
         Route::put('/password', [UsersController::class, 'changePassword']);
-        
+
         Route::get('/', [UsersController::class, 'index']);
         Route::post('/', [UsersController::class, 'store']);
         Route::get('/{user}', [UsersController::class, 'show']);
@@ -130,5 +131,9 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/', [OrderServicesController::class, 'substatuses']);
             Route::put('/{orderServiceItem}/substatus', [OrderServicesController::class, 'updateSubstatus']);
         });
+    });
+
+    Route::prefix('/branches')->group(function () {
+        Route::get('/', [BranchesController::class, 'index']);
     });
 });

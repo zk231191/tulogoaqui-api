@@ -49,6 +49,7 @@ class StoreOrderRequest extends FormRequest
 
             'cfdi_use' => ['nullable', 'required_if:requires_invoice,true', 'exists:sat_cfdi_uses,id'],
 
+            'branch_id' => ['exists:branches,id'],
             'discount' => ['nullable', 'numeric', 'min:0'],
             'deposit' => ['nullable', 'numeric', 'min:0'],
         ];

@@ -63,6 +63,7 @@ class OrdersController extends Controller
                 'cfdi_use_code' => $request->cfdi_use,
                 'comments' => $request->notes,
                 'discount' => $request->discount ?? 0,
+                'branch_id' => $request->branch_id,
 
                 'subtotal' => 0,
                 'tax' => 0,

@@ -18,6 +18,12 @@ return new class extends Migration
             $table->string('email');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+
+            $table->foreignId('branch_id')
+                ->default(1)
+                ->constrained('branches')
+                ->restrictOnDelete();
+
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

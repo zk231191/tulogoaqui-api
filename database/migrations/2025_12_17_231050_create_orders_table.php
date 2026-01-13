@@ -37,6 +37,11 @@ return new class extends Migration
             $table->string('cfdi_use_code', 3)
                 ->nullable();
 
+            $table->foreignId('branch_id')
+                ->default(1)
+                ->constrained('branches')
+                ->restrictOnDelete();
+
             $table->decimal('subtotal', 12, 2);
             $table->decimal('discount', 12, 2)
                 ->default(0);

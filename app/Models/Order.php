@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $fillable = [
-        'public_token', 'seller_id', 'customer_id', 'order_status_id', 'fiscal_address_id', 'require_invoice', 'cfdi_use_code', 'subtotal', 'discount', 'tax', 'total', 'paid_amount', 'pending_amount', 'comments'
+        'public_token', 'seller_id', 'customer_id', 'order_status_id', 'fiscal_address_id', 'branch_id', 'require_invoice', 'cfdi_use_code', 'subtotal', 'discount', 'tax', 'total', 'paid_amount', 'pending_amount', 'comments'
     ];
 
     protected $with = [
@@ -18,7 +18,8 @@ class Order extends Model
         'seller',
         'customer',
         'payments.paymentMethod',
-        'fiscalAddress'
+        'fiscalAddress',
+        'branch',
     ];
 
     public function services(): \Illuminate\Database\Eloquent\Relations\HasMany
@@ -54,6 +55,11 @@ class Order extends Model
     public function withRelations(): array
     {
         return $this->with;
+    }
+
+    public function branch(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Branch::class);
     }
 
 }
