@@ -89,6 +89,22 @@ class RolePermissionSeeder extends Seeder
             ],
         ];
 
+        $rolesPermission = [
+            [
+                'name' => 'view roles',
+                'label' => 'Roles ver',
+            ],[
+                'name' => 'create roles',
+                'label' => 'Roles crear',
+            ],[
+                'name' => 'edit roles',
+                'label' => 'Roles editar',
+            ],[
+                'name' => 'delete roles',
+                'label' => 'Roles eliminar',
+            ],
+        ];
+
         $inventoriesPermission = [
             [
                 'name' => 'view inventory',
@@ -112,20 +128,26 @@ class RolePermissionSeeder extends Seeder
             ...$reportsPermission,
             ...$usersPermission,
             ...$inventoriesPermission,
+            ...$rolesPermission,
             [
                 'name' => 'view dashboard',
-                'label' => '',
+                'label' => 'Ver Inicio',
             ]
         ];
 
         foreach ($permissions as $permission) {
             Permission::create([
-                'name' => $permission,
-                'guard_name' => 'sanctum'
+                'guard_name' => 'sanctum',
+                ...$permission
             ]);
         }
 
-        $admin = Role::create(['name' => 'admin']);
-        $admin->givePermissionTo($permissions);
+        $admin = Role::create([
+            'name' => 'admin',
+            'guard_name' => 'sanctum',
+        ]);
+        $admin->givePermissionTo(
+            collect($permissions)->pluck('name')->toArray()
+        );
     }
 }

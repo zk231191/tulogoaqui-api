@@ -30,13 +30,13 @@ class UpdateRequest extends FormRequest
                 'string',
                 'email',
                 'max:255',
-                Rule::unique('users')->ignore($userId)
+                Rule::unique('users')->whereNull('deleted_at')->ignore($userId)
             ],
             'username' => [
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('users')->ignore($userId)
+                Rule::unique('users')->whereNull('deleted_at')->ignore($userId)
             ],
             'password' => 'nullable|string|min:6',
             'role_name' => 'nullable|string|exists:roles,name'

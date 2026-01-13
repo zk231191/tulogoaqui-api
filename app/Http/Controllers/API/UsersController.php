@@ -44,16 +44,14 @@ class UsersController extends Controller
 
         unset($data['password']);
 
-        if ($request->has('password')) {
-            $data['password'] = Hash::make($data['password']);
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
         }
 
         $user->update($data);
 
-        if ($request->has('role_name')) {
-            if (!$user->hasRole($request->role_name)) {
-                $user->assignRole($request->role_name);
-            }
+        if ($request->filled('role_name')) {
+            $user->syncRoles([$request->role_name]);
         }
 
         $user->load(['roles', 'permissions']);
