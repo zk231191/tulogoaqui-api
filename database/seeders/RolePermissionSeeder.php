@@ -14,23 +14,19 @@ class RolePermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        $permissionCatalog = [
-            'services', 'customers', 'sales', 'reportes', 'users', 'inventories', 'dashboard'
-        ];
-
-        $servicesPermission = [
+        $ordersPermission = [
             [
-                'name' => 'view services',
-                'label' => 'Servicios ver',
+                'name' => 'view orders',
+                'label' => 'Ordenes ver',
             ],[
-                'name' => 'create services',
-                'label' => 'Servicios crear',
+                'name' => 'create orders',
+                'label' => 'Ordenes crear',
             ],[
-                'name' => 'edit services',
-                'label' => 'Servicios editar',
+                'name' => 'edit orders',
+                'label' => 'Ordenes editar',
             ],[
-                'name' => 'delete services',
-                'label' => 'Servicios eliminar',
+                'name' => 'delete orders',
+                'label' => 'Ordenes eliminar',
             ],
         ];
 
@@ -47,6 +43,22 @@ class RolePermissionSeeder extends Seeder
             ],[
                 'name' => 'delete customers',
                 'label' => 'Clientes eliminar',
+            ],
+        ];
+
+        $servicesPermission = [
+            [
+                'name' => 'view services',
+                'label' => 'Servicios ver',
+            ],[
+                'name' => 'create services',
+                'label' => 'Servicios crear',
+            ],[
+                'name' => 'edit services',
+                'label' => 'Servicios editar',
+            ],[
+                'name' => 'delete services',
+                'label' => 'Servicios eliminar',
             ],
         ];
 
@@ -122,8 +134,9 @@ class RolePermissionSeeder extends Seeder
         ];
 
         $permissions = [
-            ...$servicesPermission,
+            ...$ordersPermission,
             ...$customersPermission,
+            ...$servicesPermission,
             ...$salesPermission,
             ...$reportsPermission,
             ...$usersPermission,
