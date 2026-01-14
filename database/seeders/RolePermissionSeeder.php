@@ -46,6 +46,22 @@ class RolePermissionSeeder extends Seeder
             ],
         ];
 
+        $fiscalAddressPermissions = [
+            [
+                'name' => 'view fiscal_address',
+                'label' => 'Direcciones fiscales ver',
+            ],[
+                'name' => 'create fiscal_address',
+                'label' => 'Direcciones fiscales crear',
+            ],[
+                'name' => 'edit fiscal_address',
+                'label' => 'Direcciones fiscales editar',
+            ],[
+                'name' => 'delete fiscal_address',
+                'label' => 'Direcciones fiscales eliminar',
+            ],
+        ];
+
         $servicesPermission = [
             [
                 'name' => 'view services',
@@ -136,6 +152,7 @@ class RolePermissionSeeder extends Seeder
         $permissions = [
             ...$ordersPermission,
             ...$customersPermission,
+            ...$fiscalAddressPermissions,
             ...$servicesPermission,
             ...$salesPermission,
             ...$reportsPermission,
