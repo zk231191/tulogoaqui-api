@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('fiscal_addresses', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
+            $table->string('email', '100');
 
             $table->string('business_name');
             $table->string('tax_identification_number', 13);
             $table->integer('tax_regime_id');
-            $table->integer('cfdi_use_id');
 
             $table->string('street');
             $table->integer('external_number');

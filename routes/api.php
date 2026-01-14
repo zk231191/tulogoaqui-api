@@ -3,6 +3,8 @@
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\Api\BranchesController;
 use App\Http\Controllers\Api\CustomersController;
+use App\Http\Controllers\FiscalAddressesController;
+use App\Http\Controllers\API\FiscalAddressesController as APIFiscalAddressesController;
 use App\Http\Controllers\Api\FiscalRegimeController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\OrderPaymentsController;
@@ -82,10 +84,20 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('/customers')->group(function () {
         Route::get('/', [CustomersController::class, 'index']);
-        Route::get('/{customer}', [CustomersController::class, 'show']);
         Route::post('/', [CustomersController::class, 'store']);
-        Route::put('/{customer}', [CustomersController::class, 'update']);
-        Route::delete('/{customer}', [CustomersController::class, 'destroy']);
+
+        Route::prefix('/{customer}')->group(function () {
+            Route::get('/', [CustomersController::class, 'show']);
+            Route::put('/', [CustomersController::class, 'update']);
+            Route::delete('/', [CustomersController::class, 'destroy']);
+
+            Route::prefix('/fiscal-address')->group(function () {
+                Route::post('/', [FiscalAddressesController::class, 'store']);
+                Route::put('/{fiscalAddress}', [APIFiscalAddressesController::class, 'update']);
+                Route::delete('/{fiscalAddress}', [APIFiscalAddressesController::class, 'destroy']);
+            });
+        });
+
     });
 
     Route::prefix('/fiscal-regiments')->group(function () {
