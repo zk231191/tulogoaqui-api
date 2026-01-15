@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\API;
 
 use App\Actions\FiscalAddress\Create;
 use App\Events\Orders\OrderCreated;
