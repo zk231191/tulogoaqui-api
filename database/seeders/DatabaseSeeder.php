@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
             BranchSeeder::class,
             RolePermissionSeeder::class,
             UserSeeder::class,
-            CustomerSeeder::class,
+//            CustomerSeeder::class,
             ServiceSeeder::class,
             SatRegimeSeeder::class,
             SatCfdiUseSeeder::class,
