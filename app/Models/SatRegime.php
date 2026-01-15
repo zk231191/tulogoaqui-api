@@ -13,7 +13,7 @@ class SatRegime extends Model
     public function cfdiUses()
     {
         return $this->belongsToMany(
-            SatCFDIUse::class,
+            SatCfdiUse::class,
             'sat_regime_cfdi_uses',
             'regime_code',
             'cfdi_use_code',

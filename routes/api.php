@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
-use App\Http\Controllers\Api\BranchesController;
+use App\Http\Controllers\API\BranchesController;
 use App\Http\Controllers\API\CustomersController;
 use App\Http\Controllers\FiscalAddressesController;
 use App\Http\Controllers\API\FiscalAddressesController as APIFiscalAddressesController;
