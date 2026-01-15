@@ -24,8 +24,7 @@ return new class extends Migration
             $table->foreignId('service_mode_id')
                 ->constrained('service_modes');
 
-            $table->foreignId('order_service_status_id')
-                ->constrained('order_service_statuses');
+            $table->foreignId('order_service_status_id');
 
             $table->integer('quantity')->default(0);
 
