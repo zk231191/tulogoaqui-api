@@ -20,8 +20,7 @@ return new class extends Migration
             $table->foreignId('service_mode_price_id')
                 ->constrained('service_price_tiers');
 
-            $table->foreignId('order_service_substatus_id')
-                ->constrained('order_service_substatuses');
+            $table->foreignId('order_service_substatus_id');
 
             $table->integer('quantity');
             $table->decimal('unit_price', 12, 2);
