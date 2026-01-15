@@ -24,8 +24,7 @@ return new class extends Migration
                 ->constrained('customers')
                 ->cascadeOnDelete();
 
-            $table->foreignId('order_status_id')
-                ->constrained('order_statuses');
+            $table->foreignId('order_status_id');
 
             $table->foreignId('fiscal_address_id')
                 ->nullable()
