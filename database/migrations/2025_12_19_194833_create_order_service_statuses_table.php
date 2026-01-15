@@ -19,9 +19,6 @@ return new class extends Migration
             $table->boolean('is_final')->default(false);
             $table->timestamps();
             $table->softDeletes();
-
-            $table->unique(['name']);
-            $table->unique(['sequence']);
         });
     }
 

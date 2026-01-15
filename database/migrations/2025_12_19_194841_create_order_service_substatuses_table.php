@@ -24,9 +24,6 @@ return new class extends Migration
 
             $table->timestamps();
             $table->softDeletes();
-
-            $table->unique(['order_service_status_id', 'sequence']);
-            $table->unique(['order_service_status_id', 'name']);
         });
     }
 
