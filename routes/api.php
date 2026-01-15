@@ -2,22 +2,22 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\Api\BranchesController;
-use App\Http\Controllers\Api\CustomersController;
+use App\Http\Controllers\API\CustomersController;
 use App\Http\Controllers\FiscalAddressesController;
 use App\Http\Controllers\API\FiscalAddressesController as APIFiscalAddressesController;
-use App\Http\Controllers\Api\FiscalRegimeController;
-use App\Http\Controllers\Api\OrdersController;
-use App\Http\Controllers\Api\OrderPaymentsController;
-use App\Http\Controllers\Api\OrderStatusesController;
-use App\Http\Controllers\Api\OrderServicesController;
-use App\Http\Controllers\Api\PaymentsController;
-use App\Http\Controllers\Api\ReportsController;
-use App\Http\Controllers\Api\RoleController;
-use App\Http\Controllers\Api\RolePermissionController;
-use App\Http\Controllers\Api\ServiceModesController;
+use App\Http\Controllers\API\FiscalRegimeController;
+use App\Http\Controllers\API\OrdersController;
+use App\Http\Controllers\API\OrderPaymentsController;
+use App\Http\Controllers\API\OrderStatusesController;
+use App\Http\Controllers\API\OrderServicesController;
+use App\Http\Controllers\API\PaymentsController;
+use App\Http\Controllers\API\ReportsController;
+use App\Http\Controllers\API\RoleController;
+use App\Http\Controllers\API\RolePermissionController;
+use App\Http\Controllers\API\ServiceModesController;
 use App\Http\Controllers\API\ServicesController;
-use App\Http\Controllers\Api\UsersController;
-use App\Http\Controllers\Api\ZipCodeController;
+use App\Http\Controllers\API\UsersController;
+use App\Http\Controllers\API\ZipCodeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
