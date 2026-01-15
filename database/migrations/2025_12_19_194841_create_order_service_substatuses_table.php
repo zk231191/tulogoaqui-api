@@ -16,8 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('label');
 
-            $table->foreignId('order_service_status_id')
-                ->constrained('order_service_statuses');
+            $table->foreignId('order_service_status_id');
 
             $table->unsignedSmallInteger('sequence');
 
