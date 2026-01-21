@@ -18,29 +18,15 @@ use App\Http\Controllers\API\ServiceModesController;
 use App\Http\Controllers\API\ServicesController;
 use App\Http\Controllers\API\UsersController;
 use App\Http\Controllers\API\ZipCodeController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/login', [AuthController::class, 'login']);
 
-Route::post('/test/ably', function(Request $request, \App\Services\AblyService $ably) {
-    $ably->publish(
-        'orders',
-        'order-created',
-        [
-            'hola' => 'ably',
-            'mundo' => 'order'
-        ]
-    );
-
-    return response()->json(['sent' => true]);
-});
+Route::get('/zip/{zip}', [ZipCodeController::class, 'show']);
 
 Route::get('/orders/{token}/public', [OrdersController::class, 'showPublic']);
 
 Route::middleware('auth:sanctum')->group(function () {
-
-    Route::get('/zip/{zip}', [ZipCodeController::class, 'show']);
 
     Route::get('/roles-with-permissions', [RoleController::class, 'index']);
 

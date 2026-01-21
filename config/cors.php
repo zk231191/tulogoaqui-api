@@ -5,7 +5,10 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://tulogoaqui.com.mx'], // Tu URL de Vite/Vue
+    'allowed_origins' => [
+        'https://tulogoaqui.com.mx',
+        'http://pos.miplayera.com.mx'
+    ], // Tu URL de Vite/Vue
 
     'allowed_origins_patterns' => [],
 
