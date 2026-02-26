@@ -94,6 +94,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [OrdersController::class, 'index']);
         Route::get('/{order}', [OrdersController::class, 'show']);
         Route::post('/', [OrdersController::class, 'store']);
+        Route::post('/{order}/invoice', [OrdersController::class, 'invoice']);
         Route::post('/{order}/payments', [OrderPaymentsController::class, 'store']);
         Route::put('/{order}/status', [OrdersController::class, 'updateStatus']);
     });

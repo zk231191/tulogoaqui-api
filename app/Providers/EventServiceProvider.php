@@ -11,6 +11,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         OrderCreated::class => [
             PublishOrderCreatedToAbly::class
+        ],
+        \App\Events\Orders\OrderUpdated::class => [
+            \App\Listeners\StampInvoiceListener::class
         ]
     ];
     /**

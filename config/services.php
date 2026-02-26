@@ -41,6 +41,15 @@ return [
 
     'ably' => [
         'key' => env('ABLY_KEY'),
-    ]
+    ],
 
+    'detecno_cfdi' => [
+        'wsdl' => env('DETECNO_WSDL'),
+    ],
+
+    'facturama' => [
+        'url' => env('FACTURAMA_URL', 'https://apisandbox.facturama.mx'),
+        'username' => env('FACTURAMA_USERNAME'),
+        'password' => env('FACTURAMA_PASSWORD'),
+    ]
 ];

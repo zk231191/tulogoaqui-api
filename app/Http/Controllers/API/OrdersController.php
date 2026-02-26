@@ -13,6 +13,7 @@ use App\Models\OrderPayment;
 use App\Models\OrderService;
 use App\Models\OrderServiceItem;
 use App\Models\ServicePriceTier;
+use App\Services\InvoiceService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -171,5 +172,10 @@ class OrdersController extends Controller
         event(new OrderUpdated($order));
 
         return response()->json($order);
+    }
+
+    public function invoice(Order $order, InvoiceService $service)
+    {
+        return $service->generate($order);
     }
 }

@@ -62,4 +62,9 @@ class Order extends Model
         return $this->belongsTo(Branch::class);
     }
 
+    public function invoice(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Invoice::class);
+    }
+
 }

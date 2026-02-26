@@ -1,20 +1,18 @@
 <?php
 
 return [
-    'paths' => ['api/*', 'sanctum/csrf-cookie'], // Agregar stream*
+//    'paths' => ['api/*', 'sanctum/csrf-cookie'], // Agregar stream*
+    'paths' => ['*'], // Agregar stream*
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [
-        'https://tulogoaqui.com.mx',
-        'http://pos.miplayera.com.mx'
-    ], // Tu URL de Vite/Vue
+    'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
 
-    'exposed_headers' => [],
+    'exposed_headers' => ['*'],
 
     'max_age' => 0,
 
