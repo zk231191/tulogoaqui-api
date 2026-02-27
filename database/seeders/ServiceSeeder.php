@@ -44,6 +44,8 @@ class ServiceSeeder extends Seeder
 
         $this->impresion_digital();
 
+        $this->lanyards();
+
         $this->command->info('Servicios y precios escalonados creados correctamente.');
     }
 
@@ -257,6 +259,43 @@ class ServiceSeeder extends Seeder
         $this->end('serigrafía');
     }
 
+    private function lanyards(): void
+    {
+        $this->start('lanyards');
+
+        $lanyards = $this->createService('Lanyards');
+
+        $mode = $lanyards->modes()->create([
+            'name' => 'Tipo perico',
+            'description' => '',
+            'type_id' => 2
+        ]);
+
+        $ranges = [[50,500], [501, 1000], [1000, null]];
+
+        $prices = [
+            ['name' => '19 mm', 'description' => '', 'prices' => [18.5, 14, 13.5], 'ranges' => $ranges],
+            ['name' => '25 mm', 'description' => '', 'prices' => [19.5, 15, 14.5], 'ranges' => $ranges],
+        ];
+
+        $this->savePrices($prices, $mode);
+
+        $mode = $lanyards->modes()->create([
+            'name' => 'Tipo perico y samsonite',
+            'description' => '',
+            'type_id' => 2
+        ]);
+
+        $prices = [
+            ['name' => '19 mm', 'description' => '', 'prices' => [19.5, 15, 14.5], 'ranges' => $ranges],
+            ['name' => '25 mm', 'description' => '', 'prices' => [20.5, 16, 15.5], 'ranges' => $ranges],
+        ];
+
+        $this->savePrices($prices, $mode);
+
+        $this->end('lanyards');
+    }
+
     private function impresion_digital(): void
     {
         $this->start('impresión digital');
@@ -310,10 +349,40 @@ class ServiceSeeder extends Seeder
         $this->end('impresión digital');
     }
 
-    private function createService($service): Service
+    private function createService(string $serviceName): Service
     {
+        $satMap = [
+            'Sublimado' => [
+                'product' => '82121500', // Servicios de impresión
+            ],
+            'Láser' => [
+                'product' => '73131700', // Servicios de grabado
+            ],
+            'Bordado' => [
+                'product' => '73131600', // Personalización textil
+            ],
+            'DTF UV' => [
+                'product' => '82121500',
+            ],
+            'DTF Textil' => [
+                'product' => '82121500',
+            ],
+            'Serigrafía' => [
+                'product' => '73131500', // Servicios de serigrafía
+            ],
+            'Impresión Digital' => [
+                'product' => '82121500',
+            ],
+            'Lanyard' => [
+                'product' => '55121800',
+            ],
+        ];
+
         return Service::create([
-            'name' => $service
+            'name' => $serviceName,
+            'sat_product_code' => $satMap[$serviceName]['product'] ?? '73121600',
+            'sat_unit_code' => 'E48',
+            'sat_tax_object' => '02',
         ]);
     }
     private function start($process): void

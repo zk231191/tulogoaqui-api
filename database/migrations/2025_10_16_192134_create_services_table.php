@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
+            $table->string('sat_product_code')->nullable();
+            $table->string('sat_unit_code')->nullable();
+            $table->string('sat_tax_object')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->softDeletes();
